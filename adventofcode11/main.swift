@@ -95,22 +95,7 @@ class PowerGrid {
     init(serial: Int) {
         self.serial = serial
     }
-
-// FIRST CHALLENGE - UNCACHED SOLUTION
-//    func cellpowerlevel(x: Int, y: Int) -> Int {
-//        let rack = x + 10
-//        return (((rack * y + serial) * rack) / 100 % 10) - 5
-//    }
-
-//    func blockpowerlevel(x: Int, y: Int, size: Int) -> Int {
-//        let blockrange = 0...size-1
-//        let power = blockrange.reduce(0, { rowtotal, j in
-//            blockrange.reduce(0, { columntotal, i in
-//                cellpowerlevel(x: x + i, y: y + j) + columntotal
-//            }) + rowtotal })
-//        return power
-//    }
-    
+   
     func cellpowerlevel(x: Int, y: Int) -> Int {
         if let power = _grid[x,y,0] {
             return power
@@ -164,31 +149,17 @@ class PowerGrid {
 
 }
 
-//let serial8 = PowerGrid(serial: 8)
-//print(serial8.cellpowerlevel(x: 3, y: 5))
-//
-////    Fuel cell at  122,79, grid serial number 57: power level -5.
-//let serial57 = PowerGrid(serial: 57)
-//print(serial57.cellpowerlevel(x: 122, y: 79))
-//
-////    Fuel cell at 217,196, grid serial number 39: power level  0.
-//let serial39 = PowerGrid(serial: 39)
-//print(serial39.cellpowerlevel(x: 217, y: 196))
-//
-////    Fuel cell at 101,153, grid serial number 71: power level  4.
-//let serial71 = PowerGrid(serial: 71)
-//print(serial71.cellpowerlevel(x: 101, y: 153))
+let serial18 = PowerGrid(serial: 18)
+let mpl18 = serial18.maxpowerlevel()
+print("The FIRST TEST answer (Serial 18) is \(mpl18.x),\(mpl18.y)\n")
 
-
-//let serial18 = PowerGrid(serial: 18)
-//print(serial18.maxpowerlevel()
-//
-//let serial42 = PowerGrid(serial: 42)
-//print(serial42.maxpowerlevel())
+let serial42 = PowerGrid(serial: 42)
+let mpl42 = serial42.maxpowerlevel()
+print("The FIRST TEST answer (Serial 42) is \(mpl42.x),\(mpl42.y)\n")
 
 let serial8444 = PowerGrid(serial: 8444)
-let mpl = serial8444.maxpowerlevel()
-print("The FIRST CHALLENGE answer is \(mpl.x),\(mpl.y)\n")
+let mpl8444 = serial8444.maxpowerlevel()
+print("The FIRST CHALLENGE answer is \(mpl8444.x),\(mpl8444.y)\n")
 
 //        --- Part Two ---
 //    You discover a dial on the side of the device; it seems to let you select a square of any size, not just 3x3. Sizes from 1x1 to 300x300 are supported.
@@ -201,10 +172,15 @@ print("The FIRST CHALLENGE answer is \(mpl.x),\(mpl.y)\n")
 //    For grid serial number 42, the largest total square (with a total power of 119) is 12x12 and has a top-left corner of 232,251, so its identifier is 232,251,12.
 //    What is the X,Y,size identifier of the square with the largest total power?
 
-//print(serial18.maxblockpowerlevel())
+let mbpl18 = serial18.maxblockpowerlevel()
+print("The SECOND TEST answer (Serial 18) is \(mbpl18.x),\(mbpl18.y),\(mbpl18.size)\n")
 
-//print(maxblockpowerlevel(serial: 42))
+let mbpl42 = serial42.maxblockpowerlevel()
+print("The SECOND TEST answer (Serial 42) is \(mbpl42.x),\(mbpl42.y),\(mbpl42.size)\n")
 
 let mbpl = serial8444.maxblockpowerlevel()
 print("The SECOND CHALLENGE answer is \(mbpl.x),\(mbpl.y),\(mbpl.size)\n")
 
+// Solution works but takes a long time to calculate stage 2 answers
+// I implemeted a level of recursion & caching to speed things however there must be better ways to optimize
+// TODO: caching is an insufficient optimization, need to research approaches to speeding up the maxblockpowerlevel implementation
